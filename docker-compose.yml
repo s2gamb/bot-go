@@ -1,0 +1,19 @@
+services:
+  bot:
+    build: .
+    container_name: bot-go
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DB_PATH: /app/data/bot.db
+    volumes:
+      - bot_data:/app/data
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  bot_data:

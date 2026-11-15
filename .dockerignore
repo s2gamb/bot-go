@@ -1,0 +1,10 @@
+.git
+.env
+.env.*
+!.env.example
+data/
+*.db
+*.db-wal
+*.db-shm
+/bot
+/sync-groups
