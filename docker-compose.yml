@@ -1,5 +1,6 @@
 services:
   bot:
+    image: ${BOT_IMAGE:-ghcr.io/s2gamb/bot-go:latest}
     build: .
     container_name: bot-go
     restart: unless-stopped
