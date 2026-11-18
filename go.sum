@@ -14,8 +14,8 @@ github.com/ncruces/go-strftime v1.0.0 h1:HMFp8mLCTPp341M/ZnA4qaf7ZlsbTc+miZjCLOF
 github.com/ncruces/go-strftime v1.0.0/go.mod h1:Fwc5htZGVVkseilnfgOVb9mKy6w1naJmn9CehxcKcls=
 github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec h1:W09IVJc94icq4NjY3clb7Lk8O1qJ8BdBEF8z0ibU0rE=
 github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec/go.mod h1:qqbHyh8v60DhA7CoWK5oRCqLrMHRGoxYCSS9EjAz6Eo=
-github.com/s2gamb/sdp-go v0.0.0-20261115091916-5458a844648a h1:Nt7+nQxK6+aRlDDuw0sBIEyNiIFyYg44ZSYXLh2K8jk=
-github.com/s2gamb/sdp-go v0.0.0-20261115091916-5458a844648a/go.mod h1:ZJQ/B7/odTmUrb6AvYlg+3zUtNd6wFd+68aeFnjPAyE=
+github.com/s2gamb/sdp-go v0.0.0-20261118160723-dc14ec90aa0e h1:n1rQZEqht/6rWdHGxv4OIwNg9EWHabxY4iGK4Da0cMY=
+github.com/s2gamb/sdp-go v0.0.0-20261118160723-dc14ec90aa0e/go.mod h1:ZJQ/B7/odTmUrb6AvYlg+3zUtNd6wFd+68aeFnjPAyE=
 golang.org/x/mod v0.36.0 h1:JJjpVx6myfUsUdAzZuOSTTmRE0PfZeNWzzvKrP7amb4=
 golang.org/x/mod v0.36.0/go.mod h1:moc6ELqsWcOw5Ef3xVprK5ul/MvtVvkIXLziUOICjUQ=
 golang.org/x/net v0.43.0 h1:lat02VYK2j4aLzMzecihNvTlJNQUq316m2Mr9rnM6YE=

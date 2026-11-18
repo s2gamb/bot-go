@@ -4,7 +4,7 @@ go 1.25.5
 
 require (
 	github.com/go-telegram/bot v1.28.0
-	github.com/s2gamb/sdp-go v0.0.0-20261115091916-5458a844648a
+	github.com/s2gamb/sdp-go v0.0.0-20261118160723-dc14ec90aa0e
 	golang.org/x/net v0.43.0
 	modernc.org/sqlite v1.53.0
 )
