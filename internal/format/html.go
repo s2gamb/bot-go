@@ -28,6 +28,7 @@ func SanitizeAndTruncateHTML(rawHTML string, maxRunes int) string {
 		out          strings.Builder
 		openTags     []string
 		skipDepth    int
+		preDepth     int
 		visibleRunes int
 		truncated    bool
 	)
@@ -79,6 +80,18 @@ loop:
 			// Normalize CRLF to LF
 			txt = strings.ReplaceAll(txt, "\r\n", "\n")
 			txt = strings.ReplaceAll(txt, "\r", "\n")
+			if preDepth == 0 && strings.TrimSpace(txt) == "" {
+				if out.Len() == 0 || strings.HasSuffix(out.String(), "\n") {
+					continue
+				}
+				if strings.Contains(txt, "\n") {
+					txt = "\n"
+				} else if strings.HasSuffix(out.String(), " ") {
+					continue
+				} else {
+					txt = " "
+				}
+			}
 			if !appendVisible(txt) {
 				break loop
 			}
@@ -147,6 +160,7 @@ loop:
 					ensureTrailingNewline()
 					out.WriteString("<pre>")
 					openTags = append(openTags, "pre")
+					preDepth++
 				}
 			case "a":
 				if tt == html.StartTagToken {
@@ -186,6 +200,9 @@ loop:
 				openTags = closeMatchingTag(&out, openTags, "code")
 			case "pre":
 				openTags = closeMatchingTag(&out, openTags, "pre")
+				if preDepth > 0 {
+					preDepth--
+				}
 				ensureTrailingNewline()
 			case "a":
 				openTags = closeMatchingTag(&out, openTags, "a")
@@ -204,7 +221,7 @@ loop:
 		out.WriteString("… <i>(truncated)</i>")
 	}
 
-	return collapseExcessNewlines(strings.TrimSpace(out.String()))
+	return strings.TrimSpace(cleanSanitizedHTML(out.String()))
 }
 
 func isSkippedContainer(tag string) bool {
@@ -244,6 +261,39 @@ func closeMatchingTag(out *strings.Builder, stack []string, target string) []str
 		out.WriteByte('>')
 	}
 	return stack[:idx]
+}
+
+func cleanSanitizedHTML(s string) string {
+	if !strings.Contains(s, "<pre>") {
+		return cleanTextBlock(s)
+	}
+	var b strings.Builder
+	for {
+		start := strings.Index(s, "<pre>")
+		if start == -1 {
+			b.WriteString(cleanTextBlock(s))
+			break
+		}
+		b.WriteString(cleanTextBlock(s[:start]))
+		rest := s[start:]
+		end := strings.Index(rest, "</pre>")
+		if end == -1 {
+			b.WriteString(rest)
+			break
+		}
+		end += len("</pre>")
+		b.WriteString(rest[:end])
+		s = rest[end:]
+	}
+	return b.String()
+}
+
+func cleanTextBlock(s string) string {
+	lines := strings.Split(s, "\n")
+	for i, line := range lines {
+		lines[i] = strings.Trim(line, " \t\u00a0")
+	}
+	return collapseExcessNewlines(strings.Join(lines, "\n"))
 }
 
 func collapseExcessNewlines(s string) string {

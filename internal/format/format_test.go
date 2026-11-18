@@ -154,3 +154,30 @@ func TestFormatButtonLabel_StatusEmoji(t *testing.T) {
 		}
 	}
 }
+
+func TestSanitizeHTMLForTelegram_CollapsesWhitespaceAndNbspLines(t *testing.T) {
+	raw := `
+		<div>Доброе утро, коллеги!</div>
+		<div>   </div>
+		<div>&nbsp;</div>
+		<div>
+			&nbsp;
+		</div>
+		<p>
+			Best regards,
+		</p>
+		<p>     Manvel Margaryan</p>
+		<br><br><br><br>
+		<p><b>Hello</b> <i>World</i></p>
+		<pre>  indented
+
+
+  code</pre>
+	`
+
+	got := SanitizeHTMLForTelegram(raw)
+	want := "Доброе утро, коллеги!\n\nBest regards,\n\nManvel Margaryan\n\n<b>Hello</b> <i>World</i>\n<pre>  indented\n\n\n  code</pre>"
+	if got != want {
+		t.Fatalf("unexpected sanitized output:\ngot:\n%q\nwant:\n%q", got, want)
+	}
+}
